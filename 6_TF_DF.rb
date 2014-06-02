@@ -1,7 +1,7 @@
 # Calculate TF and DF
 =begin
 format:
-	id cluster_number
+	{id} {TF}
 	user1 tf1
 	user2 tf2
 	...
