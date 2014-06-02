@@ -47,8 +47,8 @@ File.open("../data/1050/result.csv", "rb").each_line do |l|
 		tf = tmp2[1].to_i
 		df = tmp2[2].to_i
 
-		# tf_idf = tf.to_f * Math.log10((1000*number_hash[group])/df) #tf-idf
-		tf_idf = tf.to_f #TF
+		tf_idf = tf.to_f * Math.log10((1000*number_hash[group])/df) #tf-idf
+		# tf_idf = tf.to_f #TF
 		# tf_idf = (1+Math.log10(tf.to_f)) * Math.log10((1000*number_hash[group])/df) #tf-idf
 		# tf_idf = (1+Math.log10(tf.to_f)) * [0, Math.log10((1000*100-df)/df)].max # 0.626
 		# tf_idf = (2+Math.log10(tf.to_f)) * [0, Math.log10((1000*100-df)/df)].max # 0.613
