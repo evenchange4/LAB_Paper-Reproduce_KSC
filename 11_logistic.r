@@ -1,14 +1,27 @@
-setup_data_all = read.csv('M:\\Shared Virtual Machines\\PaperReproduce\\data\\1050\\9_VSM_TFIDF_100\\all.csv', header = TRUE)
+#!/usr/bin/Rscript
 
-# group_list = paste("group", 1:99, sep = "")
-# for (g in group_list){
-# 	g2 = paste(g, " + ")
-# 	group = paste(group, g2)
-# }
-# group = paste(group, "group100")
+
+if(FALSE){
+	# run six classifier of logistic regression model and output the prediction result
+	# usage: $ ./11_logistic.r 300 
+	# output:
+	#		1	1007700	6	-3.547144091	-5.939170268	-2.749212149	-4.24986855	-4.214527331	2.055511179
+	#		{hashtag} {cluster}	{1}	{2}	{3}	{4}	{5}	{6}
+}
+
+args<-commandArgs(TRUE)
+group_number = args[1]
+
+output_path = paste("../data/1050/11_output/output_", group_number, sep = "")
+output_path = paste(output_path, ".csv", sep = "")
+
+input_path = paste("../data/1050/9_VSM_TFIDF/", group_number, sep = "")
+input_path = paste(input_path, ".csv", sep = "")
+
+setup_data_all = read.csv(input_path, header = TRUE)
 
 # saparate data
-features = setup_data_all[9:108]
+features = setup_data_all[9:9+as.numeric(group_number)-1]
 origin_predict =  setup_data_all['cluster']
 user_id = setup_data_all['hashtag']
 data_classifier_1 = cbind(setup_data_all['c1'],features)
@@ -52,6 +65,6 @@ for(i in 1:nrow(setup_data_all)){
 
 print (tp/nrow(setup_data_all))
 
-
+# output result
 output = cbind(user_id,origin_predict,prediction)
-write.csv(output, file = "M:\\Shared Virtual Machines\\PaperReproduce\\data\\1050\\11_output\\output_100.csv")
+write.csv(output, file = output_path)

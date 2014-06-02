@@ -1,11 +1,4 @@
-setup_data_all = read.csv('M:\\Shared Virtual Machines\\PaperReproduce\\data\\1050\\9_VSM_TFIDF_100\\all.csv', header = TRUE)
-
-# group_list = paste("group", 1:99, sep = "")
-# for (g in group_list){
-# 	g2 = paste(g, " + ")
-# 	group = paste(group, g2)
-# }
-# group = paste(group, "group100")
+setup_data_all = read.csv('M:\\Shared Virtual Machines\\PaperReproduce\\data\\1050\\9_VSM_TFIDF\\100.csv', header = TRUE)
 
 # saparate data
 features = setup_data_all[9:108]

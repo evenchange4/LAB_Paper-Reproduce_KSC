@@ -1,6 +1,16 @@
-$group_number = 100
+=begin 
+	format calculate every groups' TF-IDF and format the VSM csv file to fit model 
+	usage: $ ruby 9_VSM2.rb 200
 
-f = File.open("../data/1050/9_VSM_TFIDF_#{$group_number}/all.csv", "w")
+	output: one file of CSV format
+		1007700	6	0	0	0	0	0	1	2.961895474	3.263162465		...
+		{hashtag} {cluster} {c1} {c2} {c3} {c4}	{c5} {c6} {group1} {group2} ...
+=end
+
+
+$group_number = ARGV[0].to_i
+
+f = File.open("../data/1050/9_VSM_TFIDF/#{$group_number}.csv", "w")
 # head title
 f << "hashtag,cluster,c1,c2,c3,c4,c5,c6"
 (1..$group_number).each do |i|
@@ -16,9 +26,9 @@ File.open("../data/1050/result.csv", "rb").each_line do |l|
 
 	puts ">> #{index}.\t processing \t#{id}.txt...\t(#{1000-index}\tremain)"
 	
-	# N number
+	# N number, 屬於這個 group 有多少 user
 	number_hash = {}
-	File.open("../data/1050/7_TFIDF/#{id}.txt", "rb").each_line do |line|
+	File.open("../data/1050/7_TFIDF/#{$group_number}/#{id}.txt", "rb").each_line do |line|
 		tmp3 = line.split(" ")
 		group3 = tmp3[1]
 		if number_hash.has_key?(group3)
@@ -31,14 +41,15 @@ File.open("../data/1050/result.csv", "rb").each_line do |l|
 	# p number_hash
 
 	hash={}
-	File.open("../data/1050/8_VSM_TFIDF_#{$group_number}/#{id}.txt", "rb").each_line do |line|
+	File.open("../data/1050/8_VSM_TFIDF/#{$group_number}/#{id}.txt", "rb").each_line do |line|
 		tmp2 = line.split(" ")
 		group = tmp2[0]
 		tf = tmp2[1].to_i
 		df = tmp2[2].to_i
 
-
-		tf_idf = tf.to_f * Math.log10((1000*number_hash[group])/df) 
+		# tf_idf = tf.to_f * Math.log10((1000*number_hash[group])/df) #tf-idf
+		tf_idf = tf.to_f #TF
+		# tf_idf = (1+Math.log10(tf.to_f)) * Math.log10((1000*number_hash[group])/df) #tf-idf
 		# tf_idf = (1+Math.log10(tf.to_f)) * [0, Math.log10((1000*100-df)/df)].max # 0.626
 		# tf_idf = (2+Math.log10(tf.to_f)) * [0, Math.log10((1000*100-df)/df)].max # 0.613
 		# tf_idf = (1+Math.log10(tf.to_f)) * [0, Math.log10((1000*number_hash[group])/df)].max 

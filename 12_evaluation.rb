@@ -1,19 +1,21 @@
 require 'csv'
-$group_number = 100
 
-# CSV.open("../data/1050/11_output/output.csv", "rb") do |csv|
-#   p csv
-# end
-
-# "","hashtag","cluster","1","2","3","4","5","6"
-# table = {}
+$group_number = ARGV[0]
 
 answer = Array.new(6) { |i| i = Array.new(982){false} }
 clasif = Array.new(6) { |i| i = Array.new(982){false} }
 
 CSV.foreach("../data/1050/11_output/output_#{$group_number}.csv", headers: true) do |row|
 	n = row[0].to_i
+	threshold = -2
 	cluster = row["cluster"].to_i
+	# c1 = row["1"].to_f >= threshold
+	# c2 = row["2"].to_f >= threshold -1
+	# c3 = row["3"].to_f >= threshold -1
+	# c4 = row["4"].to_f >= threshold
+	# c5 = row["5"].to_f >= threshold -1
+	# c6 = row["6"].to_f >= 0
+
 	c1 = row["1"].to_f >= 0
 	c2 = row["2"].to_f >= 0
 	c3 = row["3"].to_f >= 0
@@ -46,10 +48,6 @@ CSV.foreach("../data/1050/11_output/output_#{$group_number}.csv", headers: true)
 	if c6
 		clasif[5][n-1] = true
 	end
-
-
-
-
 end
 
 ## accuracy
@@ -79,6 +77,7 @@ puts "Micro-averaging: \t #{micro.to_f/(982*6)}"
 
 puts "\nRecall"
 # recall
+micro_tp = 0
 (1..6).each do |i|
 	tp = 0
 	t = 0
@@ -86,6 +85,7 @@ puts "\nRecall"
 		tp = tp +1 if answer[i-1][j-1] and clasif[i-1][j-1]
 		t = t + 1  if answer[i-1][j-1]
 	end
+	micro_tp = micro_tp + tp
 	puts "classification #{i}: \t #{tp.to_f/t}"
 end
 

@@ -1,3 +1,12 @@
+=begin 
+	separate all the users to 50/100/200/300 groups,
+	and calculate each "user" tf df
+	usage: $ ruby 7_TF_DF2.rb 300
+	output: 
+		mariokitashvili 1 1 1 
+		{user_id} {group} {tf} {df}
+=end
+
 def df_dictionary(hash)
 	File.open("../data/1050/df.txt", "rb").each_line do |line|
 		tmp2 = line.split(" ")
@@ -34,7 +43,7 @@ def output_result()
 		group_size_addone = group_size +1
 
 		index = 1
-		f = File.open("../data/1050/7_TFIDF/#{id}.txt", "w")
+		f = File.open("../data/1050/7_TFIDF/#{$group_number}/#{id}.txt", "w")
 		tf_hash.each do |key, value|
 			if index <= (tf_hash.size % $group_number)*(group_size_addone)
 				n = (index/group_size_addone.to_f).ceil
@@ -48,7 +57,7 @@ def output_result()
 	end
 end
 
-$group_number = 200
+$group_number = ARGV[0].to_i
 $df_dic = {}
 df_dictionary($df_dic)
 output_result()

@@ -1,4 +1,4 @@
-file_path = "M:\\Shared Virtual Machines\\PaperReproduce\\data\\1050\\time_series128"
+file_path = "/mnt/hgfs/Shared Virtual Machines/PaperReproduce/data/1050/time_series128"
 setwd(file_path)
 
 files <- as.character(list.files(path=file_path))	#Read all files in dictionary.
@@ -113,6 +113,7 @@ ksc_clustering <- function(all_time_series,K) {
 			break
 		}
 		cat("counter=",counter)
+    print("\n")
 		print(mem)
 	}
 	result <- c(mem,cent)
@@ -133,6 +134,7 @@ center =  matrix(result_cluster[(nrow(mfile) + 1):length(result_cluster)],K,ncol
 #print(cluster_set)
 #print(center)
 par(mfrow=c(2,3))
+#par(mfrow=c(4,3))
 for (i in 1:nrow(center)) {
 	name = paste("Cluster", i, sep = " ")
 	plot(center[i,], type="l",main=name)
@@ -140,4 +142,4 @@ for (i in 1:nrow(center)) {
 
 # Write CSV in R
 result = cbind(as.matrix(files),t(cluster_set))
-write.csv(result, file="..\\result.csv")
+write.csv(result, file="/mnt/hgfs/Shared Virtual Machines/PaperReproduce/data/KSCresult.csv")
